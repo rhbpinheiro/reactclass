@@ -23,24 +23,19 @@ function App() {
   };
 
   const [countries, setCountries] = useState([]);
+  const [country, setCountry] = useState("Brazil");
 
-  const url = `http://universities.hipolabs.com/search?county=Brazil`;
+  const url = "http://universities.hipolabs.com/search?country=Brazil";
 
   useEffect(() => {
-    fetch(url)
+    fetch(url + setCountry)
       .then((response) => response.json())
       .then((data) => setCountries(data));
-  }, []);
+  }, [setCountry]);
 
   return (
     <div className="App">
-      <ul>
-        {countries.map((country) => (
-          <li>{country.name}</li>
-        ))}
-      </ul>
-
-      <h1>{title}</h1>
+      {/* <h1>{title}</h1>
       <button onClick={handleTitle}>Mudar Título</button>
       <h1>{counter}</h1>
       <button onClick={handleCounter}>Contar Aulas</button>
@@ -53,7 +48,31 @@ function App() {
         <option value="Aula 1">Aula 1</option>
         <option value="Aula 2">Aula 2</option>
         <option value="Aula 3">Aula 3</option>
+      </select> */}
+      <select
+        onChange={(event) => {
+          setCountry(event.target.value);
+        }}
+      >
+        <option value="Brazil">Brazil</option>
+        <option value="United States">United States</option>
       </select>
+
+      <ul>
+        {countries.map(({ name, country, web_pages }) => (
+          <li>
+            <div>
+              <h2>{name}</h2>
+              <p>{country}</p>
+              {web_pages.map((page) => (
+                <a href={page} target="_blank">
+                  Pagina Web
+                </a>
+              ))}
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
